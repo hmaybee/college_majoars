@@ -1,0 +1,16 @@
+library(collegeIncome)
+data(college)
+library(matahari)
+library(ggplot2)
+library(dplyr)
+dance_start(value = FALSE, contents = FALSE)
+#look at the data
+ggplot(college, aes(x = major_category, y = median)) +
+  geom_boxplot()
+#Standardize income
+college <- college %>%
+  mutate(med_std = (median - mean(median))/sd(median))
+fit1 <- lm(med_std ~ factor(major_category), college)
+summary(fit1)
+dance_save("college_major_analysis.rds")
+dance_stop()
